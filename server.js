@@ -5,6 +5,7 @@ dotenv.config();
 const express = require('express');
 const methodOverride = require("method-override");
 const morgan = require('morgan');
+const path = require("path"); // for styling
 const port = 3000;
 const app = express();
 const mongoose = require('mongoose');
@@ -18,7 +19,14 @@ const Fruit = require("./models/fruit.js");
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 app.use(morgan("dev"))
+// for styling the page
+// new code below this line
+ app.use(express.static(path.join(__dirname, "public")));
 
+ // new code above this line
+ app.get("/", async (req, res) => {
+   res.render("index.ejs");
+ });
 
 app.get("/", async (req, res) => {
   res.render("index.ejs");
